@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+</head>
+
+<body>
+    <div id="demo">
+        <h1>Vue生命周期测试文件</h1>
+        <comp></comp>
+    </div>
+    <script>
+        Vue.component('comp', {
+            template: '<button id="btn" @click="destroy">{{num}}</button>',
+            data: function () {
+                return {
+                    num: 0
+                }
+            },
+            methods: {
+                destroy() {
+                    this.$destroy()//组件被销毁
+                }
+            },
+            beforeCreate() {
+                console.log("beforeCreate......");
+                console.log(this.num, document.getElementById("btn"));
+            },
+            created() {
+                console.log("create..........");
+                this.timer = setInterval(() => {
+                    console.log(`请求完成--数字+1`);
+                    console.log(this.num, document.getElementById("btn"));
+                    this.num++
+                }, 3000)
+                console.log(this.num, document.getElementById("btn"));
+            },
+            beforeMount() {
+                console.log("beforeMount..........");
+                console.log(this.num, document.getElementById("btn"));
+            },
+            mounted() {
+                console.log("mounted........");
+                console.log(this.num, document.getElementById("btn"));
+            },
+            beforeUpdate() {
+                console.log("beforeUpdate......")
+                console.log(this.num, document.getElementById("btn").innerHTML);
+            },
+            updated() {
+                console.log("updated......")
+                console.log(this.num, document.getElementById("btn").innerHTML);
+            },
+            beforeDestroy() {
+                //清除定时器,如果不手动清除，在组件销毁后也会一直运行
+                clearInterval(this.timer)
+                console.log("beforeDestroy......")
+                console.log(this.num, document.getElementById("btn").innerHTML, document.getElementById("btn"));
+            },
+            destroyed() {
+                console.log("destroyed......")
+                console.log(this.num, document.getElementById("btn").innerHTML, document.getElementById("btn"));
+            }
+        })
+        // 创建实例
+        const app = new Vue({
+            el: '#demo'
+        });
+    </script>
+</body>
+
+</html>
