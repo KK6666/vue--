@@ -175,7 +175,7 @@ export function defineReactive (
       // 依赖收集
       if (Dep.target) {
         // dep n:n watcher
-        // 组件内会有很多key，所以一个watcher会有多个dep
+        // 组件内会有很多key(我理解是指数据有很多属性)，所以一个watcher会有多个dep
         dep.depend()
         // 如果存在子ob：主要用于未来对象可能有属性增删，数组会有元素增删
         if (childOb) {

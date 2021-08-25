@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+    <script src="../../dist/vue.js"></script>
 </head>
 
 <body>
@@ -26,15 +27,27 @@
             beforeCreate() {
                 console.log("beforeCreate......");
                 console.log(this.num, document.getElementById("btn"));
+
             },
             created() {
                 console.log("create..........");
+                console.log(this.num, document.getElementById("btn"));
                 this.timer = setInterval(() => {
                     console.log(`请求完成--数字+1`);
                     console.log(this.num, document.getElementById("btn"));
                     this.num++
                 }, 3000)
-                console.log(this.num, document.getElementById("btn"));
+                console.log(window)
+                // this.$nextTick(() => {
+                //     console.log('nextTick..........');
+                //     // console.log(this.num, document.getElementById("btn"));
+                //     this.timer = setInterval(() => {
+                //         console.log(`请求完成--数字+1`);
+                //         console.log(this.num, document.getElementById("btn"));
+                //         this.num++
+                //     }, 3000)
+                // })
+
             },
             beforeMount() {
                 console.log("beforeMount..........");
@@ -47,6 +60,9 @@
             beforeUpdate() {
                 console.log("beforeUpdate......")
                 console.log(this.num, document.getElementById("btn").innerHTML);
+                this.$nextTick(() => {
+                    console.log('nextTick2..........当前一轮dom更新完成后执行');
+                })
             },
             updated() {
                 console.log("updated......")
