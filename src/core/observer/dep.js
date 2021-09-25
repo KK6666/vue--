@@ -20,6 +20,7 @@ export default class Dep {
     this.subs = []
   }
 
+  // dep添加watcher
   addSub (sub: Watcher) {
     this.subs.push(sub)
   }

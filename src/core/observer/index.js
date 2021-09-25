@@ -150,9 +150,11 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
-  // key对应的管家dep
+  // key对应的管家dep，一个key创建一个dep，跟这个key有关的watcher都会添加进该dep的subs中
   const dep = new Dep()
 
+  // Vue 在遇到configurable === false的属性，这样的属性被设置为不可配置之后，不会为这些属性加上 setter getter 等数据劫持的方法
+  // Object.freeze会将属性的configurable设置为false，这也是freeze冻结数据做性能优化的原理
   const property = Object.getOwnPropertyDescriptor(obj, key)
   if (property && property.configurable === false) {
     return
@@ -174,8 +176,8 @@ export function defineReactive (
       const value = getter ? getter.call(obj) : val
       // 依赖收集
       if (Dep.target) {
-        // dep n:n watcher
-        // 组件内会有很多key(我理解是指数据有很多属性)，所以一个watcher会有多个dep
+        // dep n:n watcher  dep和watcher是多对多的关系
+        // 一个组件内会有很多key(指data里有很多属性)，每个key生成一个dep，一个组件一个watcher，所以一个watcher会添加进多个dep中，从而形成订阅关系
         dep.depend()
         // 如果存在子ob：主要用于未来对象可能有属性增删，数组会有元素增删
         if (childOb) {
