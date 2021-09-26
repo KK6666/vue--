@@ -171,7 +171,7 @@ export default class Watcher {
     } else if (this.sync) {
       this.run()
     } else {
-      // nextTick    dep.notify()之后watcher执⾏更新，执⾏⼊队操作 queueWatcher(watcher)
+      // nextTick    dep.notify()之后watcher执⾏更新，执⾏⼊队操作，等待批量异步执行
       queueWatcher(this)
     }
   }
